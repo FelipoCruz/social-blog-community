@@ -9,7 +9,6 @@ function Contest() {
     const data = await response.json()
     setWords(data)
   }
-  console.log(words)
 
   return (
     <>
