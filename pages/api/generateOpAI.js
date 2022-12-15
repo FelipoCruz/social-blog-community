@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   if (method === "POST") {
     try {
       const { body } = req;
-      console.log('body is', body);
+      console.log("body is", body);
       const finalBody = {
         prompt: body.prompt,
         n: 1,
