@@ -24,17 +24,16 @@ function CreateImage() {
       contests: contests
     }
     try {
-      console.log(user)
-      const result = await fetch('/api/generateOpAI', 
+      const result = await fetch("/api/generateOpAI", 
       {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(event),
       })
       console.log(result);
       return await result.json();
     } catch (error) {
-      console.log('Error in addEvent on client service', error)
+      console.log("Error in addEvent on client service", error)
     }
   }
 
