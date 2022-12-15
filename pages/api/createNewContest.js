@@ -1,6 +1,6 @@
 import { randomWordAPI } from './randomWordAPI'
 import firebase from 'firebase/compat/app';
-import { firestore } from './fireBaseInit'
+import { firestore } from '../../lib/firebase'
 import { collection, addDoc } from 'firebase/firestore';
 
 export const createNewContest1 = async (props) => {
