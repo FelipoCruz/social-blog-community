@@ -50,6 +50,8 @@ input:-webkit-autofill{
   width: 90px;
 }
 
+
+
 .navbar_search{
   height: 100%;
   display: flex;
@@ -64,6 +66,12 @@ input:-webkit-autofill{
 .trinityTitle {
   display: flex;
   color: rgb(255, 255, 255);
+}
+
+@media only screen and (max-width: 500px) {
+  .trinityTitle {
+    display: none;
+  }
 }
 
 .navbarProfilePic {
@@ -182,7 +190,7 @@ input:-webkit-autofill{
   font-size: 50px;
   line-height: 0.9;
   text-align: center;
-  margin: 2%;
+  margin: 6%;
 }
 
 .p1WC{
@@ -647,14 +655,14 @@ button:active {
   transition: 0.3s;
   background-color: #fdff39;;
   padding: 1%;
-  margin: 3%;
+  margin: 7%;
   margin-top: 0%;
   margin-bottom: 0%;
   border-radius: 5px;
   width: 80%;
   border: 0;
   align-self: center;
-  min-width: 360px;
+  min-width: 340px;
 }
 
 .card3 {
