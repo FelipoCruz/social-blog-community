@@ -19,24 +19,24 @@ let prompt = ""
 
 export default async function handler(req, res) {
   const { method } = req;
-  if (method === 'POST') {
+  if (method === "POST") {
     try {
       const { body } = req;
       console.log('body is', body);
       const finalBody = {
         prompt: body.prompt,
         n: 1,
-        size: '1024x1024'
+        size: "1024x1024"
       }
       prompt = body.prompt;
       const user = body.user;
       const contests = body.contests;
       newImageURL = await openAIGeneration(finalBody);
       const cloudinaryImgData = await upload2Cloudinary(newImageURL);
-      console.log('cloudinary image data is:', cloudinaryImgData)
+      console.log("cloudinary image data is:", cloudinaryImgData)
 
       // UPLOADS: IMAGE AND IMAGE INFO TO FIREBASE
-      const docRef = await addDoc(collection(firestore, 'images'), {
+      const docRef = await addDoc(collection(firestore, "images"), {
         usedPrompt: prompt,
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
         url: cloudinaryImgData.secure_url,
