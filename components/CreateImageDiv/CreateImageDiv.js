@@ -16,10 +16,11 @@ function CreateImage() {
   const closeModal = () => setOpen(false);
 
   const postToOpenAI2 = async (prompt) => {
+    console.log(prompt);
     const event = {
       prompt: prompt,
       n: 1,
-      size: '1024x1024',
+      size: "1024x1024",
       user: user,
       contests: contests
     }

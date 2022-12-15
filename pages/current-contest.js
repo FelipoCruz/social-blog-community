@@ -26,10 +26,5 @@ function CurrentContest() {
 
     </>
   )
-
-
 }
-
-
-
 export default CurrentContest;
