@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { createNewContest1 } from '../../services/createNewContest';
+import { createNewContest1 } from '../../lib/createNewContest';
+import Spinner from '../Spinner/Spinner'
 
 const Timer = (props) => {
   const [days, setDays] = useState(0);
@@ -8,6 +9,7 @@ const Timer = (props) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [time, setTime] = useState()
+  const [spinner, setSpinner] = useState(true);
 
   const getTime = () => {
     const time = props.expirationDate - Date.now();

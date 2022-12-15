@@ -1,7 +1,9 @@
 import '../styles/globals.css'
+import { useRouter } from 'next/router'
 
 // Contexts
 import { UserContext, ContestsContext, ImagesContext, TestContext } from '../lib/context'
+
 // import { useUserData } from '../lib/hooks';
 import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth'
@@ -12,7 +14,7 @@ import { firestore } from '../lib/firebase'
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 // components:
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar/Navbar';
 import ImageFeed from '../components/ImageFeed/ImageFeed';
 
 // pages:
@@ -20,6 +22,8 @@ import Home from '../pages/index'
 
 function MyApp({ Component, pageProps }) {
   const [user] = useAuthState(auth);
+  const router = useRouter() 
+  
 
   // FETCH OF CONTESTS
   const contestsRef = firestore.collection('contests');
@@ -46,3 +50,4 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp
+

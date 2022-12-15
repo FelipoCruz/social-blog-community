@@ -1,10 +1,9 @@
 import { auth, firestore, googleAuthProvider } from "../lib/firebase";
 import { useContext } from 'react';
 import { UserContext, ContestsContext, ImagesContext } from '../lib/context';
-
+import Link from 'next/link'
 
 // components:
-
 import ImageFeed from '../components/ImageFeed/ImageFeed';
 
 export default function Home() {
@@ -18,9 +17,8 @@ export default function Home() {
         <>
         {/* If user signed in */}  
         <div className="normalDiv">
-          <button className="normalButton" > Participate in current contest </button>
-          <button className="normalButton"> See my images  </button>
         </div>
+        <h1 className="h1WC"> Trinity Feed </h1>
         {contests && contests.map((contest)=>(
           <ImageFeed key={contest.id} contest={contest} images={images2}>
           </ImageFeed>

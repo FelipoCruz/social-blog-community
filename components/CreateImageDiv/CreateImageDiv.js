@@ -1,68 +1,81 @@
-import './style.css';
-import 'firebase/compat/firestore';
-
-import firebase from 'firebase/compat/app';
-import { increment, collection, addDoc } from "firebase/firestore"; 
-
 import { useState } from 'react'
-import { firestore } from '../../services/fireBaseInit'
-import { openAIGeneration } from '../../services/generateOpAI'
-import { upload2Cloudinary } from '../../services/upload2Cloudinary'
+import { useContext } from 'react';
+import {  ContestsContext, UserContext } from '../../lib/context';
 import Spinner from '../Spinner/Spinner'
 import Timer from '../Timer/Timer';
+import React from 'react';
+import Popup from 'reactjs-popup';
 
-function CreateImage({fetchImages, contests, user}) {
+function CreateImage() {
+  const contests = useContext(ContestsContext);
+  const user = useContext(UserContext);
   const [spinner, setSpinner] = useState(true);
-  
-  // THIS FUNCTION GENERATES EACH IMAGE
+  const [popup, setPopup] = useState(false);
+  const [image2, setImage2] = useState();
+  const [open, setOpen] = useState(false);
+  const closeModal = () => setOpen(false);
+
+  const postToOpenAI2 = async (prompt) => {
+    const event = {
+      prompt: prompt,
+      n: 1,
+      size: '1024x1024',
+      user: user,
+      contests: contests
+    }
+    try {
+      console.log(user)
+      const result = await fetch('/api/generateOpAI', 
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(event),
+      })
+      console.log(result);
+      return await result.json();
+    } catch (error) {
+      console.log('Error in addEvent on client service', error)
+    }
+  }
+
+  let image = '';
+
   const generateImage = async (event) => {
     event.preventDefault();
 
     // CHECKS: IF PROMPT CONTAINS THE 2 REQUIRED WORDS
     if (event.target.newPrompt.value.toLowerCase().includes(contests[0].random2Words[0].toLowerCase()) && event.target.newPrompt.value.toLowerCase().includes(contests[0].random2Words[1].toLowerCase())) {
+      let prompt = event.target.newPrompt.value.toLowerCase()
       setSpinner(false);
+      let openAIURL = await postToOpenAI2(prompt)
+      console.log(openAIURL);
+      image = openAIURL
+      setImage2(image);
+      console.log(image2)
+      setPopup(true);
+      console.log(popup)
+      console.log(image);
+      setOpen(true);
 
-    // GETS IMAGE´S OPENAI URL, THEN UPLOAD IMAGE TO CLOUDINARY
-    let openAIURL = await openAIGeneration(event.target.newPrompt.value.toLowerCase())
-    let cloudinaryImgData = await upload2Cloudinary(openAIURL);
-    
-    // UPLOADS: IMAGE AND IMAGE INFO TO FIREBASE
-    const docRef = await addDoc(collection(firestore, 'images'), {
-      usedPrompt: event.target.newPrompt.value,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      url: cloudinaryImgData.secure_url,
-      data: cloudinaryImgData,
-      userName: user.displayName,
-      userId: user.uid,
-      contestIdRef: contests[0].id,
-      contestWord1: contests[0].random2Words[0],
-      contestWord2: contests[0].random2Words[1],
-      likesReceived: 0,
-      usersWhoLiked: [],
-    })
-
-    // ADDS TO THE NEW CREATED IMAGE ITS OWN ID
-    const newCreatedImgRef = firestore.collection('images').doc(docRef.id);
-    await newCreatedImgRef.update({
-      id: docRef.id
-    })
-
-    // ADD +1 TO property imagesGenerated at the current contest
-    const contestRef = firestore.collection('contests').doc(contests[0].id);
-    await contestRef.update({
-      imagesGenerated: increment(1)
-    })
-
-    event.target.reset();
-    setSpinner(true);
-  } else {
-    alert('you prompt does not include the 2 words')
-  }
+      // GETS IMAGE´S OPENAI URL, THEN UPLOAD IMAGE TO CLOUDINARY
+      const cloudinaryImgData = async () => {}
+      event.target.reset();
+      setSpinner(true);
+      } else {
+        alert('you prompt does not include the 2 words')
+      }
   };
 
   return (
-    <>   
-    { (!contests.length || !spinner)  ? <Spinner /> : 
+    <>
+      <div>
+        <Popup open={open} closeOnDocumentClick onClose={closeModal}>
+          <div className="overlay">
+            {image2 ? <img className='popupImg' src={image2} ></img> : <Spinner />}
+          </div>
+        </Popup>
+      </div>
+    { (!contests || !spinner)  ? <Spinner /> : 
       <div className='promptInput'>
         <div className='card2'>
           <div className='container2'>
@@ -81,6 +94,11 @@ function CreateImage({fetchImages, contests, user}) {
             <button>Create Image</button>
           </form>
         </div>
+        {image2 ?
+        <button type="button" className="button" onClick={() => setOpen(o => !o)}>
+        See Image Again
+        </button> :
+        null }
       </div>
       }
     </>

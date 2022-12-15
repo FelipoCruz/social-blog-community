@@ -1,11 +1,14 @@
 import { React, useState, useEffect } from 'react'
-import heart from '../../public/heart-icon.png';
+import heart from '../../public/heart-icon.png'
 import { firestore } from '../../lib/firebase'
 import { increment, arrayRemove, arrayUnion } from "firebase/firestore"; 
- 
-export default function LikeButton({image, user}) {
+import { useContext } from 'react';
+import { UserContext } from '../../lib/context';
+
+export default function LikeButton({image}) {
   const [counter, setCounter] = useState(image.likesReceived || 0);
   const [liked, setLiked] = useState(false);
+  const user = useContext(UserContext);
 
   useEffect(()=> {
     if (image.usersWhoLiked && image.usersWhoLiked.includes(user.uid)) {
@@ -33,15 +36,13 @@ export default function LikeButton({image, user}) {
         usersWhoLiked: arrayRemove(user.uid)
       })
     }
-
-
   }
 
   return (
     <div className="counter">      
       <div className="likeContainer">
         <span className="counterOutput">{counter}</span>
-        <img className='likeButton' alt='likeButton' src={heart} onClick={toggleLike1}></img>
+        <img className="likeButton" alt='likeButton' src='/heart-icon.png' onClick={toggleLike1} />
       </div>
     </div>
   );

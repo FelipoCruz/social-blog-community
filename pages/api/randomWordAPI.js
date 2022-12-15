@@ -1,7 +1,7 @@
 export default function handler(req, res) {
   const word1 = randomWordAPI();
   const word2 = randomWordAPI2();
-  res.status(200).json([{character: `${word1}`}, {salt: `${word2}`}]);
+  res.status(200).json([`${word1}`, `${word2}`]);
 
 
 } 
