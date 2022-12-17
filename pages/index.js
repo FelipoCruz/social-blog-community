@@ -1,7 +1,7 @@
 import { auth, firestore, googleAuthProvider } from "../lib/firebase";
 import { useContext } from 'react';
 import { UserContext, ContestsContext, ImagesContext } from '../lib/context';
-import Link from 'next/link'
+
 
 // components:
 import ImageFeed from '../components/ImageFeed/ImageFeed';

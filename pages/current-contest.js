@@ -20,7 +20,7 @@ function CurrentContest() {
       <ReDirect></ReDirect>
       <div className='normalDiv2'>
         <h1 className='h1WC'> 👋 Hi There!</h1>
-        <p className='p1WC'> ❤️ To participate in the contest, write a sentence, than includes both of the following words:</p>
+        <p className='p1WC'> ❤️ To participate in the contest, write a sentence, that includes both of the following words:</p>
       </div>
       <CreateImage contests={contests || []} user={user}></CreateImage>
 
