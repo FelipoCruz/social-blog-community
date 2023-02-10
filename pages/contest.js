@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-
 function Contest() {
 
   const [ words, setWords ] = useState([])
