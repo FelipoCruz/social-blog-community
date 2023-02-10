@@ -62,7 +62,7 @@ export default async function handler(req, res) {
         imagesGenerated: increment(1)
       })
 
-      return res.status(200).json(cloudinaryImgData.secure_url);
+      return await res.status(200).json(cloudinaryImgData.secure_url);
     } catch (error) {
       console.log('error in post method at generateOpAI', error)
     }

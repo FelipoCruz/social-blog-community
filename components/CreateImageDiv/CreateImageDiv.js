@@ -31,8 +31,8 @@ function CreateImage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(event),
       })
-      console.log(result);
-      return await result.json();
+      console.log('result of feth to api/generateOpAI is: ', result);
+      return result.json()
     } catch (error) {
       console.log("Error in addEvent on client service", error)
     }
